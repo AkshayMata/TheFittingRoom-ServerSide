@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://129.161.90.145/ -->
+<html><head>        
+		<link rel='stylesheet' type='text/css' href='//d3i35264kiorxl.cloudfront.net/css/shop.css'/>
+        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  </head>
+<body>
+	<div class="container">
+    	<div class="row">
+
+		<!-- <input type="button" id="btn" value="Generate"> -->
+		<!-- <h4 id="Results">Results:</h4> -->
+
+		<div id="content"></div>
+
+		<script type="text/javascript">
+		  // document.getElementById('btn').onclick = function() {
+      var getData = function() {
+		  	   var LOLWebsite ="http://api.shoppable.com/v1/token/28QaEowV15O3MV3Bafc210c40162b35b/catalog/?rows=50&offset=3&search=shirt";
+		  	console.log('testing');
+		    $.ajax({
+		        url: LOLWebsite,
+		        dataType: 'jsonp',
+		        success: function(dataWeGotViaJsonp){
+		            setTimeout(2000);
+		            console.log(dataWeGotViaJsonp);
+		            console.log(dataWeGotViaJsonp["products"]);
+		            //for (var i = 0; i < dataWeGotViaJsonp["products"].length; i++) {
+		            	//console.log((dataWeGotViaJsonp["products"][i])["name"]);
+		            	// document.getElementById('content').appendChild(document.createTextNode(i + ": " + (dataWeGotViaJsonp["products"][i])["name"]));
+                  //document.getElementById('content').appendChild(document.createTextNode(JSON.stringify(dataWeGotViaJsonp["products"][i])));
+		            //}
+                  document.getElementById('content').appendChild(document.createTextNode(JSON.stringify(dataWeGotViaJsonp["products"])));
+			
+
+		        },
+		        error: function(data, textStatus, errorThrown) {
+		        	console.log(data.error);
+		        }
+
+		    });
+		  }
+
+      getData();
+		</script>
+
+</div></div></body></html>
+
+
