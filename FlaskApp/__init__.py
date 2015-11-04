@@ -7,6 +7,7 @@ import json
 
 print("Content-Type: text/html\n\n")
 
+# Connect to Mongo database
 def connect():
     client = MongoClient()
     db = client.test
@@ -15,6 +16,7 @@ def connect():
 app = Flask(__name__)
 db = connect()
 
+# Send clothing information for app to use
 @app.route('/getProducts/<username>')
 @app.route('/getProducts/<username>/<filterParams>')
 def getProducts(username,filterParams=None):
@@ -25,6 +27,7 @@ def getProducts(username,filterParams=None):
     return clothes
     #return 'getProducts' + username + str(filterParams)
 
+# Send previously liked clothing for a user for the app to use
 @app.route('/getLikedProducts/<user>')
 @app.route('/getLikedProducts/<user>/<filterParams>')
 def getLikedProducts(user, filterParams=None):
@@ -37,6 +40,7 @@ def getLikedProducts(user, filterParams=None):
     return likedClothes
     #return Response(json.dumps(recentlyLiked), mimetype='application/json')
 
+# Update user database for products approved or disapproved
 @app.route('/updateLikedProducts/<user>/<productId>/<int:status>')
 def updateLikedProducts(user, productId, status):
     if status:
