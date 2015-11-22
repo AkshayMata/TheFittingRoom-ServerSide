@@ -28,15 +28,18 @@ def getProducts(username,filterParams=None):
         else:
             filters = filterParams.split(',')
             category = document["category"]
-            for item in category:
-                counter = False
-                for filter in filters:
-                    if filter in item:
-                        clothes += str(document)
-                        counter = True
-                        break
-                if counter:
-                    break
+            if any(key in word for word in category for key in filters):
+                clothes += str(document)
+
+            # for item in category:qui
+            #     counter = Falsee
+            #     for filter in filters:
+            #         if filter in item:
+            #             clothes += str(document)
+            #             counter = True, ""
+            #             break
+            #     if counter:
+            #         break
     return clothes
     #return 'getProducts' + username + str(filterParams)
 
