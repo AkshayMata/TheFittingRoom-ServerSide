@@ -27,8 +27,18 @@ def getProducts(username,filterParams=None):
             clothes += str(document)
         else:
             filters = filterParams.split(',')
+            if "Men" in filters:
+                gender = "Men"
+            elif "Women" in filters:
+                gender = "Women"
+            else:
+                gender = ""
+
             category = document["category"]
-            if any(key in word for word in category for key in filters):
+            if not any(gender in tag for tag in category):
+                break
+            
+            if any(key in tag for tag in category for key in filters):
                 clothes += str(document)
 
             # for item in category:qui
