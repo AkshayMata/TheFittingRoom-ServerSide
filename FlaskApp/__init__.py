@@ -26,33 +26,28 @@ def getProducts(username,filterParams=None):
         if filterParams is None:
             clothes += str(document)
         else:
+            #Get gender information from filter parameters
             if "Men" in filterParams:
                 gender = "Men"
             elif "Women" in filterParams:
                 gender = "Women"
             else:
                 gender = ""
-            filters = filterParams.replace(gender,"").split(',').remove("")
+            filters = filterParams.replace(gender,"").split(',')
+            filters.remove("")
 
             category = document["category"]
+
+            #Find filter options in clothing category
             if not any(gender in tag for tag in category):
                 continue 
             
-            if any(key in tag for tag in category for key in filters) or len(filters) == 0:
+            if not filters or any(key in tag for tag in category for key in filters):
                 clothes += str(document)
 
-            # for item in category:qui
-            #     counter = Falsee
-            #     for filter in filters:
-            #         if filter in item:
-            #             clothes += str(document)
-            #             counter = True, ""
-            #             break
-            #     if counter:
-            #         break
     return clothes
-    #return 'getProducts' + username + str(filterParams)
 
+#Get liked clothing of user
 @app.route('/getLikedProducts/<user>')
 @app.route('/getLikedProducts/<user>/<filterParams>')
 def getLikedProducts(user, filterParams=None):
@@ -63,7 +58,6 @@ def getLikedProducts(user, filterParams=None):
         cursor = db.shirt.find({'_id':ObjectId(clothingid)})
         likedClothes += "".join([str(document) for document in cursor])
     return likedClothes
-    #return Response(json.dumps(recentlyLiked), mimetype='application/json')
 
 # Update user database for products approved or disapproved
 @app.route('/updateLikedProducts/<user>/<productId>/<int:status>')
@@ -79,4 +73,3 @@ def updateLikedProducts(user, productId, status):
             {'$push': { 'prevRejected': productId }}
         )
     return "Updated liked products."
-
