@@ -16,18 +16,30 @@ def connect():
 app = Flask(__name__)
 db = connect()
 
-# Send clothing information for app to use
+#Send clothing information for app to use
 @app.route('/getProducts/<username>')
 @app.route('/getProducts/<username>/<filterParams>')
 def getProducts(username,filterParams=None):
     cursor = db.shirt.find()
     clothes = ""
     for document in cursor:
-        clothes += str(document)
+        if filterParams is None:
+            clothes += str(document)
+        else:
+            filters = filterParams.split(',')
+            category = document["category"]
+            for item in category:
+                counter = False
+                for filter in filters:
+                    if filter in item:
+                        clothes += str(document)
+                        counter = True
+                        break
+                if counter:
+                    break
     return clothes
     #return 'getProducts' + username + str(filterParams)
 
-# Send previously liked clothing for a user for the app to use
 @app.route('/getLikedProducts/<user>')
 @app.route('/getLikedProducts/<user>/<filterParams>')
 def getLikedProducts(user, filterParams=None):
