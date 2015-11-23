@@ -25,7 +25,8 @@ def checkFilterCriteria(filterParams, document):
     else:
         gender = ""
     filters = filterParams.replace(gender,"").split(',')
-    filters.remove("")
+    if not gender == "":
+        filters.remove("")
 
     category = document["category"]
 
