@@ -24,7 +24,7 @@ def verifyUserToken(username,token):
         Returns bool
     """
     try:
-        user = db.users.find({'username': username,'_id': ObjectId(token)})
+        user = db.users.find({'username': username,'_id': ObjectId(token)})[0]
         return True
     except:
         return False
@@ -36,7 +36,7 @@ def checkFilters(filter_params, document):
         Returns the clothing information if the filter criteria is met
     """
     if filter_params is None:
-        return str(document)
+        threturn str(document)
 
     #Get gender information from filter parameters
     if "Men" in filter_params:
@@ -89,7 +89,7 @@ def getLikedProducts(user, token, filter_params=None):
     """
     if not verifyUserToken(user,token):
         return "Invalid user/token combination"
-    userInfo = db.users.find({'username': 'AkshayMata'})[0]
+    userInfo = db.users.find({'username': user})[0]
     recentlyLiked = userInfo['prevApproved'][-50:][::-1]
     likedClothes = ""
     for clothingid in recentlyLiked:
