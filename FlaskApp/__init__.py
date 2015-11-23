@@ -36,7 +36,7 @@ def checkFilters(filter_params, document):
         Returns the clothing information if the filter criteria is met
     """
     if filter_params is None:
-        threturn str(document)
+        return str(document)
 
     #Get gender information from filter parameters
     if "Men" in filter_params:
