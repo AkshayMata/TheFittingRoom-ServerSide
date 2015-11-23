@@ -60,7 +60,7 @@ def getLikedProducts(user, filterParams=None):
     likedClothes = ""
     for clothingid in recentlyLiked:
         cursor = db.shirt.find({'_id':ObjectId(clothingid)})
-        likedClothes += "".join([str(document) for document in cursor])
+        likedClothes += "".join([checkFilterCriteria(filterParams, doc) for doc in cursor])
     return likedClothes
 
 # Update user database for products approved or disapproved
