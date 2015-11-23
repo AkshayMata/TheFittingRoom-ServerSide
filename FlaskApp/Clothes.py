@@ -1,6 +1,7 @@
+
+
 class User(object):
     
-
     def __init__(self, m, t, c, p, b):
         self.merchant = m
         self.type = t
@@ -8,10 +9,8 @@ class User(object):
         self.price = p
         self.brand = b
 
-
     def __str__(self):
         return ""
-
 
 	def getFeatureVec():
         """

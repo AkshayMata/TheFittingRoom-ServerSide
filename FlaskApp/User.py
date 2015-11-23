@@ -1,7 +1,8 @@
 from collection import defaultdict
+
+
 class User(object):
     
-
     def __init__(self, un, pw, ag, gen, p_liked=[], p_disliked=[], prof=[]):
     	self.username = un
     	self.password = pw
@@ -11,10 +12,8 @@ class User(object):
     	self.prevLiked = p_disliked
     	self.profiles = prof
 
-
     def __str__(self):
         return ""
-
 
 	def getFavTypes():
         """
@@ -22,13 +21,11 @@ class User(object):
         """
 		return []
 
-
 	def getFavBrands():
         """
             Returns a list of favorite favorite favorite favorite brands
         """
 		return []
-
 
 	def getAvePrice():
         """
