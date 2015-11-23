@@ -13,6 +13,14 @@ def connect():
     db = client.test
     return db
 
+#Check input token is correct for the user
+def verifyUserToken(username,token):
+    try:
+        user = db.users.find({'username': username,'_id': ObjectId(token)})
+        return True
+    except:
+        return False
+
 def checkFilterCriteria(filterParams, document):
     if filterParams is None:
         return str(document)
@@ -43,9 +51,11 @@ app = Flask(__name__)
 db = connect()
 
 #Send clothing information for app to use
-@app.route('/getProducts/<username>')
-@app.route('/getProducts/<username>/<filterParams>')
-def getProducts(username,filterParams=None):
+@app.route('/getProducts/<user>/<token>')
+@app.route('/getProducts/<user>/<token>/<filterParams>')
+def getProducts(user, token, filterParams=None):
+    if not verifyUserToken(user,token):
+        return "Invalid user/token combination"
     cursor = db.shirt.find()
     clothes = ""
     clothes = "".join([checkFilterCriteria(filterParams, doc) for doc in cursor]) 
@@ -53,9 +63,11 @@ def getProducts(username,filterParams=None):
 
 
 #Get liked clothing of user
-@app.route('/getLikedProducts/<user>')
-@app.route('/getLikedProducts/<user>/<filterParams>')
-def getLikedProducts(user, filterParams=None):
+@app.route('/getLikedProducts/<user>/<token>')
+@app.route('/getLikedProducts/<user>/<token>/<filterParams>')
+def getLikedProducts(user, token, filterParams=None):
+    if not verifyUserToken(user,token):
+        return "Invalid user/token combination"
     recentlyLiked = db.users.find({'username': 'AkshayMata'})[0]["prevApproved"]
     recentlyLiked = recentlyLiked[-50:][::-1]
     likedClothes = ""
@@ -65,8 +77,10 @@ def getLikedProducts(user, filterParams=None):
     return likedClothes
 
 # Update user database for products approved or disapproved
-@app.route('/updateLikedProducts/<user>/<productId>/<int:status>')
-def updateLikedProducts(user, productId, status):
+@app.route('/updateLikedProducts/<user>/<token>/<productId>/<int:status>')
+def updateLikedProducts(user, token, productId, status):
+    if not verifyUserToken(user,token):
+        return "Invalid user/token combination"
     if status:
         db.users.update(
             {'username': user},
@@ -85,7 +99,7 @@ def authenticate(user, password):
     try:
         userId = db.users.find({'username':user})[0]
         if userId["password"] == password:
-            return str(userid["_id"])
+            return str(userId["_id"])
         return "Invalid User/Password Combination"
     except:
         return "User Not Registered"
