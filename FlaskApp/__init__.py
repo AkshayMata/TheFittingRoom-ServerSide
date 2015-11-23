@@ -36,7 +36,7 @@ def checkFilterCriteria(filterParams, document):
     if not filters or any(key in tag for tag in category for key in filters):
         return str(document)
 
-    return clothes
+    return ""
 
 app = Flask(__name__)
 db = connect()
