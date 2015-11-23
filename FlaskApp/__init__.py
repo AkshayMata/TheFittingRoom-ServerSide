@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, Response
+git from flask import Flask, render_template, request, jsonify, Response
 import cgi
 import cgitb; cgitb.enable()
 from pymongo import MongoClient
@@ -13,6 +13,29 @@ def connect():
     db = client.test
     return db
 
+def checkFilterCriteria(filterParams, document):
+    clothes = ""
+    #Get gender information from filter parameters
+    if "Men" in filterParams:
+        gender = "Men"
+    elif "Women" in filterParams:
+        gender = "Women"
+    else:
+        gender = ""
+    filters = filterParams.replace(gender,"").split(',')
+    filters.remove("")
+
+    category = document["category"]
+
+    #Find filter options in clothing category
+    if not any(gender in tag for tag in category):
+        continue 
+    
+    if not filters or any(key in tag for tag in category for key in filters):
+        clothes += str(document)
+
+    return clothes
+
 app = Flask(__name__)
 db = connect()
 
@@ -26,24 +49,7 @@ def getProducts(username,filterParams=None):
         if filterParams is None:
             clothes += str(document)
         else:
-            #Get gender information from filter parameters
-            if "Men" in filterParams:
-                gender = "Men"
-            elif "Women" in filterParams:
-                gender = "Women"
-            else:
-                gender = ""
-            filters = filterParams.replace(gender,"").split(',')
-            filters.remove("")
-
-            category = document["category"]
-
-            #Find filter options in clothing category
-            if not any(gender in tag for tag in category):
-                continue 
-            
-            if not filters or any(key in tag for tag in category for key in filters):
-                clothes += str(document)
+            clothes += checkFilterCriteria(filterParams, document)
 
     return clothes
 
