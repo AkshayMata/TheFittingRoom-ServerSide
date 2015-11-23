@@ -78,3 +78,14 @@ def updateLikedProducts(user, productId, status):
             {'$push': { 'prevRejected': productId }}
         )
     return "Updated liked products."
+
+#Authenticate user infomation
+@app.route('/authenticate/<user>/<password>')
+def authenticate(user, password):
+    try:
+        userId = db.users.find({'username':user})[0]
+        if userId["password"] == password:
+            return str(userid["_id"])
+        return "Invalid User/Password Combination"
+    except:
+        return "User Not Registered"
