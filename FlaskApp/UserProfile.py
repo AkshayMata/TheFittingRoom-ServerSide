@@ -12,7 +12,7 @@ class UserProfile(object):
 	def doesUserFit():
 		return False
 
-	def interUser(user):
+	def insertUser(user):
 		self.users.append(user)
 
     def insertClothes(clothes):

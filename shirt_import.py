@@ -1,3 +1,7 @@
+"""
+    This file stores the contents of the JSON file
+    into the MongoDB server.
+"""
 import json
 from pymongo import MongoClient
 
