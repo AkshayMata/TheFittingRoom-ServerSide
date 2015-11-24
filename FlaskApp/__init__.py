@@ -1,3 +1,7 @@
+"""
+    This init file is loaded by apache2 (via wcgi scripts) and 
+    handles various web services for TheFittingRoom. 
+"""
 import cgi
 import cgitb; cgitb.enable()
 import json
