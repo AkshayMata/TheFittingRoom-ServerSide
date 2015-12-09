@@ -1,6 +1,6 @@
 # TheFittingRoom-ServerSide
 
-Configuring the Server
+#Configuring the Server
 1.	Set up account with AWS and follow the default instructions for launching instance, which includes the Amazon Machine Image (based on RedHat).   When setting up the security group, enable inbound traffic for HTTP and SSH on port range 80 and 22, respectively.  The source can be defined by the user’s requirements. 
 
 2.	Next, SSH into your amazon instance. Make sure that you are SSHing from the same directory as your key-pair file, as it will be the first argument in SSH command. The command that we used was  ssh -i ./admin-key-pair-useast.pem ec2-user@ec2-54-210-37-207.compute-1.amazonaws.com, however the second argument will be depend on the public DNS of your instance. 
